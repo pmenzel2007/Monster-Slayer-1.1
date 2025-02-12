@@ -1,5 +1,21 @@
+// import {Player} from "./player";
+let canvas;
+let ctx;
+let player;
+
 function onBodyLoad() {
-    const canvas = document.getElementById("canvas");
+    alert("a");
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
 
+    player = new Player(123, 123);
+    gameLoop();
+}
 
+function gameLoop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    player.draw(ctx);
+
+    requestAnimationFrame(gameLoop);
 }

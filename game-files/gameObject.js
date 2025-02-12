@@ -14,4 +14,9 @@ export class GameObject {
             this.y + this.height > other.y
         );
     }
+
+    draw(ctx) {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
 }
