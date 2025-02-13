@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6abdc8c-9993-40a3-a868-d123fe945670" name="Changes" comment="Added basic player functionality, import not working">
+    <list default="true" id="c6abdc8c-9993-40a3-a868-d123fe945670" name="Changes" comment="Fixed issue with loading files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game-files/gameObject.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/gameObject.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/player.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/game.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +51,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "JavaScript Debug.Unnamed.executor": "Debug",
     "JavaScript Debug.game.html.executor": "Run",
+    "Node.js.player.js.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
@@ -96,7 +95,7 @@
       <option name="presentableId" value="Default" />
       <updated>1739344127135</updated>
       <workItem from="1739344129753" duration="8921000" />
-      <workItem from="1739430558515" duration="3362000" />
+      <workItem from="1739430558515" duration="9261000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />
@@ -122,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739361995608</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Fixed issue with loading files">
+      <option name="closed" value="true" />
+      <created>1739434657634</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1739434657634</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -132,6 +139,7 @@
     <MESSAGE value="First Commit" />
     <MESSAGE value="Added Hitbox class and basic collision detection" />
     <MESSAGE value="Added basic player functionality, import not working" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added basic player functionality, import not working" />
+    <MESSAGE value="Fixed issue with loading files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed issue with loading files" />
   </component>
 </project>
