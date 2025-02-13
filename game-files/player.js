@@ -1,6 +1,4 @@
-import { GameObject } from "./gameObject.js";
-
-export class Player extends GameObject {
+class Player extends GameObject {
     constructor(x, y) {
         super(x, y, 32, 32);
         this.speed = 4;

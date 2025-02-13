@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c6abdc8c-9993-40a3-a868-d123fe945670" name="Changes" comment="Added Hitbox class and basic collision detection">
-      <change afterPath="$PROJECT_DIR$/game-files/player.js" afterDir="false" />
+    <list default="true" id="c6abdc8c-9993-40a3-a868-d123fe945670" name="Changes" comment="Added basic player functionality, import not working">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/core.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/gameObject.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/gameObject.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-files/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/player.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/game.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,21 +27,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "pmenzel2007"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;pmenzel2007&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/pmenzel2007/Monster-Slayer-1.1.git",
-    "accountId": "d4bfe8a7-cebf-4b05-a1fe-ba0f9e2d3f5e"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/pmenzel2007/Monster-Slayer-1.1.git&quot;,
+    &quot;accountId&quot;: &quot;d4bfe8a7-cebf-4b05-a1fe-ba0f9e2d3f5e&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2svlrOmzkVG63acd3f1tN1PfoT6" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -50,15 +51,22 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
+    "JavaScript Debug.Unnamed.executor": "Debug",
     "JavaScript Debug.game.html.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
+    "WebServerToolWindowPanel.toolwindow.show.date": "false",
+    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
+    "WebServerToolWindowPanel.toolwindow.show.size": "false",
     "git-widget-placeholder": "master",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "web.server",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -66,6 +74,11 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\pmenz\WebstormProjects\Monster-Slayer-1.1\game-files" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Unnamed" type="JavascriptDebugType" nameIsGenerated="true" uri="http://localhost:63342/game.html" useBuiltInWebServerPort="true">
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -82,7 +95,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1739344127135</updated>
-      <workItem from="1739344129753" duration="8873000" />
+      <workItem from="1739344129753" duration="8921000" />
+      <workItem from="1739430558515" duration="3362000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <option name="closed" value="true" />
@@ -100,7 +114,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739349281135</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added basic player functionality, import not working">
+      <option name="closed" value="true" />
+      <created>1739361995608</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1739361995608</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -109,6 +131,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First Commit" />
     <MESSAGE value="Added Hitbox class and basic collision detection" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Hitbox class and basic collision detection" />
+    <MESSAGE value="Added basic player functionality, import not working" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added basic player functionality, import not working" />
   </component>
 </project>

@@ -1,4 +1,3 @@
-// import {Player} from "./player";
 let canvas;
 let ctx;
 let player;
@@ -19,3 +18,5 @@ function gameLoop() {
 
     requestAnimationFrame(gameLoop);
 }
+
+window.onBodyLoad = onBodyLoad;
