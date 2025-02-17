@@ -10,18 +10,29 @@ class Player extends GameObject {
 
     handleInput(event, down) {
         switch (event.code) {
-            case "ArrowUp": this.movement.up = down; break;
-            case "ArrowDown": this.movement.down = down; break;
-            case "ArrowRight": this.movement.right = down; break;
-            case "ArrowLeft": this.movement.left = down; break;
+            case "ArrowUp": case "KeyW": this.movement.up = down; break;
+            case "ArrowDown": case "KeyS": this.movement.down = down; break;
+            case "ArrowRight": case "KeyD": this.movement.right = down; break;
+            case "ArrowLeft": case "KeyA": this.movement.left = down; break;
         }
-        console.log(this.movement);
     }
 
     move() {
-        if (this.movement.up) this.y -= this.speed;
-        if (this.movement.down) this.y += this.speed;
-        if (this.movement.left) this.x -= this.speed;
-        if (this.movement.right) this.x += this.speed;
+
+        let dx = 0, dy = 0;
+
+        if (this.movement.up) dy -= 1;
+        if (this.movement.down) dy += 1;
+        if (this.movement.left) dx -= 1;
+        if (this.movement.right) dx += 1;
+
+        if (dx !== 0 || dy !== 0) {
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            dx /= distance;
+            dy /= distance;
+        }
+
+        this.x += dx * this.speed;
+        this.y += dy * this.speed;
     }
 }

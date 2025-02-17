@@ -6,7 +6,7 @@ function onBodyLoad() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
-    player = new Player(123, 123);
+    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);
 
     gameLoop();
 }
