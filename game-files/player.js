@@ -3,6 +3,10 @@ class Player extends GameObject {
         super(x, y, 32, 32);
         this.speed = 3;
         this.movement = { up: false, down: false, left: false, right: false };
+        this.attackDirection = { up: false, down: false, left: false, right: true };
+        this.attackSpeed = 1000;
+        this.cooldown = 0;
+        this.bullets = [];
 
         document.addEventListener("keydown", (event) => this.handleInput(event, true));
         document.addEventListener("keyup", (event) => this.handleInput(event, false));
@@ -10,15 +14,35 @@ class Player extends GameObject {
 
     handleInput(event, down) {
         switch (event.code) {
-            case "ArrowUp": case "KeyW": this.movement.up = down; break;
-            case "ArrowDown": case "KeyS": this.movement.down = down; break;
-            case "ArrowRight": case "KeyD": this.movement.right = down; break;
-            case "ArrowLeft": case "KeyA": this.movement.left = down; break;
+            case "KeyW": this.movement.up = down; break;
+            case "KeyS": this.movement.down = down; break;
+            case "KeyD": this.movement.right = down; break;
+            case "KeyA": this.movement.left = down; break;
+
+            case "ArrowUp": case "ArrowDown": case "ArrowRight": case "ArrowLeft": this.changeAttackDirection(event, down); break;
+
+            case "Space": this.fireBullet();
         }
     }
 
-    move() {
+    changeAttackDirection() {
 
+    }
+
+    fireBullet() {
+        if (this.cooldown === 0) {
+            let dx = 0, dy = 0;
+
+            if (this.attackDirection.up) dy -= 1;
+            if (this.attackDirection.down) dy += 1;
+            if (this.attackDirection.left) dx -= 1;
+            if (this.attackDirection.right) dx += 1;
+
+            this.bullets.push(new Bullet(this.x + (this.width/2 - 4), this.y + (this.height/2 - 4), dx, dy));
+        }
+    }
+
+    updatePlayer() {
         let dx = 0, dy = 0;
 
         if (this.movement.up) dy -= 1;
@@ -34,5 +58,7 @@ class Player extends GameObject {
 
         this.x += dx * this.speed;
         this.y += dy * this.speed;
+
+        return { playerX: this.x, playerY: this.y , bullets: this.bullets };
     }
 }

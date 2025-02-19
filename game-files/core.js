@@ -1,6 +1,8 @@
 let canvas;
 let ctx;
 let player;
+let enemies = [];
+let bullets = [];
 let gates = [];  // Array für die Gates
 
 
@@ -10,6 +12,12 @@ function onBodyLoad() {
     ctx = canvas.getContext("2d");
 
     player = new Player(canvas.width / 2 - 16, canvas.height / 2 - 16);
+
+    for (let i = 0; i < 3; i++) {
+        let x = Math.random() * (canvas.width - 32);
+        let y = Math.random() * (canvas.height - 32);
+        enemies.push(new Enemy(x, y));
+    }
 
     // Gates erstellen und ins Array hinzufügen
     gates.push(new Gate(canvas.width/2-16, 0));
@@ -23,11 +31,20 @@ function onBodyLoad() {
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    player.move();
-    player.draw(ctx);  // Zeichne den Spieler
+    let playerParams = player.updatePlayer();
+    player.draw(ctx, "blue");
 
-    // Gates zeichnen
-    gates.forEach(gate => gate.draw(ctx));  // Alle Gates zeichnen
+    for (let i = 0; i < enemies.length; i++) {
+        enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
+        enemies[i].draw(ctx, "green");
+    }
+
+    for (let i = 0; i < playerParams.bullets.length; i++) {
+        playerParams.bullets[i].updateBullet();
+        playerParams.bullets[i].draw(ctx, "red");
+    }
+
+    gates.forEach(gate => gate.draw(ctx, "purple"));
 
     requestAnimationFrame(gameLoop);
 }

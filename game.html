@@ -7,12 +7,14 @@
         body { text-align: center; }
         canvas { background: #ddd; }
     </style>
-    <script src="game-files/gameObject.js"></script> <!-- Hier ist die GameObject Klasse -->
+    <script src="game-files/gameObject.js"></script>
     <script src="game-files/player.js"></script>
+    <script src="game-files/bullet.js"></script>
+    <script src="game-files/enemy.js"></script>
     <script src="game-files/gates.js"></script>
-    <script src="game-files/core.js"></script> <!-- Das ist die Datei mit onBodyLoad und Spiel Logik -->
+    <script src="game-files/core.js"></script>
 </head>
-<body onload="onBodyLoad()">  <!-- onBodyLoad wird hier aufgerufen -->
-<canvas id="canvas" width="544" height="544"></canvas>
+<body onLoad="onBodyLoad()">
+    <canvas id="canvas" width="544" height="544"></canvas>
 </body>
 </html>
