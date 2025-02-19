@@ -1,22 +1,15 @@
+// Die GameObject-Klasse ist hier definiert und sollte nur einmal in der gesamten Anwendung existieren.
 class GameObject {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, color = "blue") {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-    }
-
-    collidesWith(other) {
-        return (
-            this.x < other.x + other.width &&
-            this.x + this.width > other.x &&
-            this.y < other.y + other.height &&
-            this.y + this.height > other.y
-        );
+        this.color = color;
     }
 
     draw(ctx) {
-        ctx.fillStyle = "blue";
+        ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 }
