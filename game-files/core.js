@@ -5,12 +5,14 @@ let enemies = [];
 let gates = [];  // Array für die Gates
 
 
+let wall;
+let walls;
 
 function onBodyLoad() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
-    player = new Player(canvas.width / 2 - 16, canvas.height / 2 - 16);
+    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);
 
     for (let i = 0; i < 3; i++) {
         let x = Math.random() * (canvas.width - 32);
@@ -23,6 +25,8 @@ function onBodyLoad() {
     gates.push(new Gate(canvas.width/2-16, canvas.height - 32));
     gates.push(new Gate(0,canvas.width/2-16));
     gates.push(new Gate(canvas.width - 32,canvas.height/2-16));
+
+    initializeWalls();
 
     gameLoop();
 }
@@ -53,5 +57,34 @@ function gameLoop() {
 
     gates.forEach(gate => gate.draw(ctx, "purple"));
 
+    for (wall of walls) {
+        wall.draw(ctx, "black");
+    }
     requestAnimationFrame(gameLoop);
 }
+
+function initializeWalls() {
+    walls = [];
+    let wallX = 0;
+    let wallY = 0;
+
+    for (let i = 0; i < 17; i++) {
+        wallX = 32 * i;
+        console.log(wallX);
+        if (i !== 8) {
+            walls.push(new Wall(wallX, 0));
+            walls.push(new Wall(wallX, canvas.height - 32));
+        }
+    }
+
+    for (let i = 0; i < 17; i++) {
+        wallY = 32 * i;
+        console.log(wallY);
+        if (i !== 8) {
+            walls.push(new Wall(0, wallY));
+            walls.push(new Wall(canvas.height - 32, wallY));
+        }
+    }
+}
+
+window.onBodyLoad = onBodyLoad;

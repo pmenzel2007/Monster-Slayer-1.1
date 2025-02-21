@@ -1,0 +1,188 @@
+Index: game-files/gameObject.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>class GameObject {\r\n    constructor(x, y, width, height) {\r\n        this.x = x;\r\n        this.y = y;\r\n        this.width = width;\r\n        this.height = height;\r\n    }\r\n\r\n    collidesWith(other) {\r\n        return (\r\n            this.x < other.x + other.width &&\r\n            this.x + this.width > other.x &&\r\n            this.y < other.y + other.height &&\r\n            this.y + this.height > other.y\r\n        );\r\n    }\r\n\r\n    draw(ctx) {\r\n        ctx.fillStyle = \"blue\";\r\n        ctx.fillRect(this.x, this.y, this.width, this.height);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game-files/gameObject.js b/game-files/gameObject.js
+--- a/game-files/gameObject.js	(revision a4046a6a80bde04f1f12fe6730ab909b1186caeb)
++++ b/game-files/gameObject.js	(date 1739782321213)
+@@ -15,8 +15,8 @@
+         );
+     }
+ 
+-    draw(ctx) {
+-        ctx.fillStyle = "blue";
++    draw(ctx, color) {
++        ctx.fillStyle = color;
+         ctx.fillRect(this.x, this.y, this.width, this.height);
+     }
+ }
+\ No newline at end of file
+Index: game.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Monster Slayer</title>\r\n    <style>\r\n        body { text-align: center; }\r\n        canvas { background: #ddd; }\r\n    </style>\r\n    <script src=\"game-files/gameObject.js\"></script>\r\n    <script src=\"game-files/player.js\"></script>\r\n    <script src=\"game-files/core.js\"></script>\r\n</head>\r\n<body onLoad=\"onBodyLoad()\">\r\n    <canvas id=\"canvas\" width=\"544\" height=\"544\"></canvas>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game.html b/game.html
+--- a/game.html	(revision a4046a6a80bde04f1f12fe6730ab909b1186caeb)
++++ b/game.html	(date 1739781921951)
+@@ -9,6 +9,7 @@
+     </style>
+     <script src="game-files/gameObject.js"></script>
+     <script src="game-files/player.js"></script>
++    <script src="game-files/wall.js"></script>
+     <script src="game-files/core.js"></script>
+ </head>
+ <body onLoad="onBodyLoad()">
+Index: game-files/core.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>let canvas;\r\nlet ctx;\r\nlet player;\r\n\r\nfunction onBodyLoad() {\r\n    canvas = document.getElementById(\"canvas\");\r\n    ctx = canvas.getContext(\"2d\");\r\n\r\n    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);\r\n\r\n    gameLoop();\r\n}\r\n\r\nfunction gameLoop() {\r\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\r\n\r\n    player.move();\r\n    player.draw(ctx);\r\n\r\n    requestAnimationFrame(gameLoop);\r\n}\r\n\r\nwindow.onBodyLoad = onBodyLoad;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game-files/core.js b/game-files/core.js
+--- a/game-files/core.js	(revision a4046a6a80bde04f1f12fe6730ab909b1186caeb)
++++ b/game-files/core.js	(date 1740138165969)
+@@ -1,6 +1,8 @@
+ let canvas;
+ let ctx;
+ let player;
++let wall;
++let walls;
+ 
+ function onBodyLoad() {
+     canvas = document.getElementById("canvas");
+@@ -8,6 +10,8 @@
+ 
+     player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);
+ 
++    initializeWalls();
++
+     gameLoop();
+ }
+ 
+@@ -15,9 +19,35 @@
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 
+     player.move();
+-    player.draw(ctx);
+-
++    player.draw(ctx, "blue");
++    for (wall of walls) {
++        wall.draw(ctx, "black");
++    }
+     requestAnimationFrame(gameLoop);
+ }
+ 
++function initializeWalls() {
++    walls = [];
++    let wallX = 0;
++    let wallY = 0;
++
++    for (let i = 0; i < 17; i++) {
++        wallX = 32 * i;
++        console.log(wallX);
++        if (i !== 8) {
++            walls.push(new Wall(wallX, 0));
++            walls.push(new Wall(wallX, canvas.height - 32));
++        }
++    }
++
++    for (let i = 0; i < 17; i++) {
++        wallY = 32 * i;
++        console.log(wallY);
++        if (i !== 8) {
++            walls.push(new Wall(0, wallY));
++            walls.push(new Wall(canvas.height - 32, wallY));
++        }
++    }
++}
++
+ window.onBodyLoad = onBodyLoad;
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"c6abdc8c-9993-40a3-a868-d123fe945670\" name=\"Changes\" comment=\"Added Movement to player\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/game-files/core.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/game-files/core.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/game-files/player.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/game-files/player.js\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"HTML File\" />\r\n        <option value=\"JavaScript File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;pmenzel2007&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/pmenzel2007/Monster-Slayer-1.1.git&quot;,\r\n    &quot;accountId&quot;: &quot;d4bfe8a7-cebf-4b05-a1fe-ba0f9e2d3f5e&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 4\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2svlrOmzkVG63acd3f1tN1PfoT6\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,\r\n    &quot;JavaScript Debug.Unnamed.executor&quot;: &quot;Run&quot;,\r\n    &quot;JavaScript Debug.game.html.executor&quot;: &quot;Run&quot;,\r\n    &quot;Node.js.player.js.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowPanel.toolwindow.highlight.mappings&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowPanel.toolwindow.highlight.symlinks&quot;: &quot;true&quot;,\r\n    &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,\r\n    &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,\r\n    &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;master&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;web.server&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\pmenz\\WebstormProjects\\Monster-Slayer-1.1\\game-files\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.112\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"c6abdc8c-9993-40a3-a868-d123fe945670\" name=\"Changes\" comment=\"\" />\r\n      <created>1739344127135</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1739344127135</updated>\r\n      <workItem from=\"1739344129753\" duration=\"8921000\" />\r\n      <workItem from=\"1739430558515\" duration=\"15055000\" />\r\n      <workItem from=\"1739529684598\" duration=\"2735000\" />\r\n      <workItem from=\"1739533551933\" duration=\"363000\" />\r\n      <workItem from=\"1739533933445\" duration=\"492000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"First Commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1739346430024</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1739346430024</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Added Hitbox class and basic collision detection\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1739349281135</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1739349281135</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Added basic player functionality, import not working\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1739361995608</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1739361995608</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Fixed issue with loading files\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1739434657634</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1739434657634</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Added Movement to player\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1739441662505</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1739441662505</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"6\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"First Commit\" />\r\n    <MESSAGE value=\"Added Hitbox class and basic collision detection\" />\r\n    <MESSAGE value=\"Added basic player functionality, import not working\" />\r\n    <MESSAGE value=\"Fixed issue with loading files\" />\r\n    <MESSAGE value=\"Added Movement to player\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Added Movement to player\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision a4046a6a80bde04f1f12fe6730ab909b1186caeb)
++++ b/.idea/workspace.xml	(date 1740138166015)
+@@ -5,9 +5,11 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="c6abdc8c-9993-40a3-a868-d123fe945670" name="Changes" comment="Added Movement to player">
++      <change afterPath="$PROJECT_DIR$/game-files/wall.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/game-files/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/core.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/game-files/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/player.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/game-files/gameObject.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/gameObject.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/game.html" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -34,7 +36,7 @@
+   <component name="GithubPullRequestsUISettings">{
+   &quot;selectedUrlAndAccountId&quot;: {
+     &quot;url&quot;: &quot;https://github.com/pmenzel2007/Monster-Slayer-1.1.git&quot;,
+-    &quot;accountId&quot;: &quot;d4bfe8a7-cebf-4b05-a1fe-ba0f9e2d3f5e&quot;
++    &quot;accountId&quot;: &quot;367dd301-726f-43b2-b5aa-a9f2061a23bf&quot;
+   }
+ }</component>
+   <component name="ProjectColorInfo">{
+@@ -59,6 +61,7 @@
+     &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
+     &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
+     &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
++    &quot;disable.download.node.interpreter.editor.notification&quot;: &quot;true&quot;,
+     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+@@ -77,7 +80,7 @@
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.112" />
++        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
+       </set>
+     </attachedChunks>
+   </component>
+@@ -94,6 +97,13 @@
+       <workItem from="1739529684598" duration="2735000" />
+       <workItem from="1739533551933" duration="363000" />
+       <workItem from="1739533933445" duration="492000" />
++      <workItem from="1739886389836" duration="1486000" />
++      <workItem from="1739948345981" duration="5490000" />
++      <workItem from="1739960118380" duration="104000" />
++      <workItem from="1739963991880" duration="145000" />
++      <workItem from="1740044414224" duration="2759000" />
++      <workItem from="1740062078369" duration="597000" />
++      <workItem from="1740136611994" duration="1542000" />
+     </task>
+     <task id="LOCAL-00001" summary="First Commit">
+       <option name="closed" value="true" />
+Index: game-files/wall.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game-files/wall.js b/game-files/wall.js
+new file mode 100644
+--- /dev/null	(date 1740044787593)
++++ b/game-files/wall.js	(date 1740044787593)
+@@ -0,0 +1,8 @@
++class Wall extends GameObject{
++    constructor(x, y) {
++        super(x, y, 32, 32);
++        this.x = x;
++        this.y = y;
++    }
++
++}

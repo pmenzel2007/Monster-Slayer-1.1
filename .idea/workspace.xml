@@ -5,11 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6abdc8c-9993-40a3-a868-d123fe945670" name="Changes" comment="Added Enemies and beta bullets">
+    <list default="true" id="c6abdc8c-9993-40a3-a868-d123fe945670" name="Changes" comment="Added Movement to player">
+      <change afterPath="$PROJECT_DIR$/game-files/wall.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/core.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/enemy.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/enemy.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/gameObject.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/gameObject.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game-files/player.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/player.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game-files/gameObject.js" beforeDir="false" afterPath="$PROJECT_DIR$/game-files/gameObject.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/game.html" beforeDir="false" afterPath="$PROJECT_DIR$/game.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,7 +40,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/pmenzel2007/Monster-Slayer-1.1.git&quot;,
-    &quot;accountId&quot;: &quot;d4bfe8a7-cebf-4b05-a1fe-ba0f9e2d3f5e&quot;
+    &quot;accountId&quot;: &quot;367dd301-726f-43b2-b5aa-a9f2061a23bf&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -62,6 +66,7 @@
     &quot;WebServerToolWindowPanel.toolwindow.show.date&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowPanel.toolwindow.show.permissions&quot;: &quot;false&quot;,
     &quot;WebServerToolWindowPanel.toolwindow.show.size&quot;: &quot;false&quot;,
+    &quot;disable.download.node.interpreter.editor.notification&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -80,7 +85,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.112" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-WS-243.22562.222" />
       </set>
     </attachedChunks>
   </component>
@@ -97,6 +102,13 @@
       <workItem from="1739529684598" duration="2735000" />
       <workItem from="1739533551933" duration="363000" />
       <workItem from="1739533933445" duration="492000" />
+      <workItem from="1739886389836" duration="1486000" />
+      <workItem from="1739948345981" duration="5490000" />
+      <workItem from="1739960118380" duration="104000" />
+      <workItem from="1739963991880" duration="145000" />
+      <workItem from="1740044414224" duration="2759000" />
+      <workItem from="1740062078369" duration="597000" />
+      <workItem from="1740136611994" duration="1542000" />
       <workItem from="1739775301054" duration="3887000" />
       <workItem from="1739861994778" duration="10966000" />
       <workItem from="1739949462643" duration="1592000" />
