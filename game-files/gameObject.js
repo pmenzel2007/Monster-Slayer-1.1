@@ -9,20 +9,12 @@ class GameObject {
     }
 
     collidesWith(other) {
-        if (this.id === other.id) return {collides: false, axis: null};
+        if (this.id === other.id) return false;
 
-        let collidesX =
-            this.x < other.x + other.width &&
-            this.x + this.width > other.x;
-        let collidesY =
+        return this.x < other.x + other.width &&
+            this.x + this.width > other.x &&
             this.y < other.y + other.height &&
             this.y + this.height > other.y;
-
-        //if (collidesX && collidesY) return {collides: true, axis: "both"};
-        if (collidesX) return {collides: true, axis: "x"};
-        if (collidesY) return {collides: true, axis: "y"};
-
-        return {collides: false, axis: null};
     }
 
     draw(ctx, color) {

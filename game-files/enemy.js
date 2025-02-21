@@ -5,9 +5,6 @@ class Enemy extends GameObject {
     }
 
     update(playerX, playerY, enemies) {
-        let oldX = this.x;
-        let oldY = this.y;
-
         let distanceX = Math.abs(playerX - this.x);
         let distanceY = Math.abs(playerY - this.y)
 
@@ -16,22 +13,34 @@ class Enemy extends GameObject {
         if (distanceX > distanceY) scalingY = distanceY / distanceX;
         if (distanceX < distanceY) scalingX = distanceX / distanceY;
 
-        if (this.x < playerX) this.x += this.speed * scalingX;
-        if (this.x > playerX) this.x -= this.speed * scalingX;
-        if (this.y < playerY) this.y += this.speed * scalingY;
-        if (this.y > playerY) this.y -= this.speed * scalingY;
+        let newX = this.x;
+        let newY = this.y;
 
-        for (let i = 0; i < enemies.length; i++) {
-            let collision = this.collidesWith(enemies[i]);
+        if (this.x < playerX) newX += this.speed * scalingX;
+        if (this.x > playerX) newX -= this.speed * scalingX;
 
-            console.log(collision);
+        let thisEnemyX = { x: newX, y: this.y, height: this.height, width: this.width, id: this.id };
 
-            if (collision.collides) {
-                //if (collision.axis === "x") this.x = oldX;
-                //if (collision.axis === "x") this.y = oldY;
-                break;
-            }
+        if (!this.checkForCollision(thisEnemyX, enemies)) {
+            this.x = newX;
         }
 
+        if (this.y < playerY) newY += this.speed * scalingY;
+        if (this.y > playerY) newY -= this.speed * scalingY;
+
+        let thisEnemyY = { x: this.x, y: newY, height: this.height, width: this.width, id: this.id };
+
+        if (!this.checkForCollision(thisEnemyY, enemies)) {
+            this.y = newY;
+        }
+    }
+
+    checkForCollision(bounds, enemies) {
+        for (let i = 0; i < enemies.length; i++) {
+            if (enemies[i].collidesWith(bounds)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

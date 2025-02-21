@@ -2,7 +2,6 @@ let canvas;
 let ctx;
 let player;
 let enemies = [];
-let bullets = [];
 let gates = [];  // Array für die Gates
 
 
@@ -39,9 +38,17 @@ function gameLoop() {
         enemies[i].draw(ctx, "green");
     }
 
-    for (let i = 0; i < playerParams.bullets.length; i++) {
-        playerParams.bullets[i].updateBullet();
-        playerParams.bullets[i].draw(ctx, "red");
+    for (let bullet of playerParams.bullets) {
+        bullet.updateBullet();
+        bullet.draw(ctx, "red");
+        for (let j = 0; j < enemies.length; j++) {
+            if (bullet.collidesWith(enemies[j])) {
+                console.log(bullet, enemies[j]);
+                enemies.splice(enemies.indexOf(enemies[j]), 1);
+                playerParams.bullets.splice(playerParams.bullets.indexOf(bullet), 1);
+                break;
+            }
+        }
     }
 
     gates.forEach(gate => gate.draw(ctx, "purple"));

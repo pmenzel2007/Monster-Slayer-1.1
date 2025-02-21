@@ -3,8 +3,8 @@ class Player extends GameObject {
         super(x, y, 32, 32);
         this.speed = 3;
         this.movement = { up: false, down: false, left: false, right: false };
-        this.attackDirection = { up: false, down: false, left: false, right: true };
-        this.attackSpeed = 1000;
+        this.attackDirection = { up: false, down: false, left: false, right: false };
+        this.attackSpeed = 15;
         this.cooldown = 0;
         this.bullets = [];
 
@@ -18,15 +18,32 @@ class Player extends GameObject {
             case "KeyS": this.movement.down = down; break;
             case "KeyD": this.movement.right = down; break;
             case "KeyA": this.movement.left = down; break;
-
-            case "ArrowUp": case "ArrowDown": case "ArrowRight": case "ArrowLeft": this.changeAttackDirection(event, down); break;
-
-            case "Space": this.fireBullet();
         }
+
+        if (["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"].includes(event.code)) {
+            this.changeAttackDirection(event, down);
+        }
+
     }
 
-    changeAttackDirection() {
+    changeAttackDirection(event, down) {
+        if (down) {
+            this.attackDirection = {
+                up: event.code === "ArrowUp",
+                down: event.code === "ArrowDown",
+                right: event.code === "ArrowRight",
+                left: event.code === "ArrowLeft"
+            };
+        } else {
+            this.attackDirection = {
+                up: false,
+                down: false,
+                right: false,
+                left: false
+            }
+        }
 
+        this.fireBullet();
     }
 
     fireBullet() {
@@ -38,7 +55,10 @@ class Player extends GameObject {
             if (this.attackDirection.left) dx -= 1;
             if (this.attackDirection.right) dx += 1;
 
-            this.bullets.push(new Bullet(this.x + (this.width/2 - 4), this.y + (this.height/2 - 4), dx, dy));
+            if (dx !== 0 || dy !== 0) {
+                this.bullets.push(new Bullet(this.x + (this.width/2 - 4), this.y + (this.height/2 - 4), dx, dy));
+            }
+            this.cooldown = this.attackSpeed;
         }
     }
 
@@ -58,6 +78,17 @@ class Player extends GameObject {
 
         this.x += dx * this.speed;
         this.y += dy * this.speed;
+
+        if (this.cooldown > 0) {
+            this.cooldown--;
+        }
+        else if (
+            this.attackDirection.up ||
+            this.attackDirection.down ||
+            this.attackDirection.right ||
+            this.attackDirection.left) {
+            this.fireBullet();
+        }
 
         return { playerX: this.x, playerY: this.y , bullets: this.bullets };
     }
