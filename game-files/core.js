@@ -1,14 +1,20 @@
 let canvas;
 let ctx;
+let startTime;
 let player;
 let enemies = [];
-let gates = [];  // Array für die Gates
+let gates = [];
 
+let time;
+
+let playerSprite;
 
 let wall;
 let walls;
 
 function onBodyLoad() {
+    startTime = performance.now();
+
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
 
@@ -28,14 +34,18 @@ function onBodyLoad() {
 
     initializeWalls();
 
+    loadSprites();
+
     gameLoop();
 }
 
 function gameLoop() {
+    time = (performance.now() - startTime) / 1000;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let playerParams = player.updatePlayer();
-    player.draw(ctx, "yellow");
+    player.drawImage(ctx, playerSprite);
 
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
@@ -85,6 +95,10 @@ function initializeWalls() {
             walls.push(new Wall(canvas.height - 32, wallY));
         }
     }
+}
+
+function loadSprites() {
+    playerSprite = document.getElementById("julian");
 }
 
 window.onBodyLoad = onBodyLoad;
