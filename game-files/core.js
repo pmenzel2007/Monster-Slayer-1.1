@@ -35,7 +35,7 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let playerParams = player.updatePlayer();
-    player.draw(ctx, "blue");
+    player.draw(ctx, "yellow");
 
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
