@@ -22,7 +22,7 @@ class GameObject {
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    drawImage(ctx, image) {
+    drawObjectImage(ctx, image) {
         ctx.drawImage(image, this.x, this.y, this.width, this.height);
     }
 

@@ -7,7 +7,9 @@ let gates = [];
 
 let time;
 
+let julian;
 let playerSprite;
+let bulletSprite;
 
 let wall;
 let walls;
@@ -45,7 +47,7 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let playerParams = player.updatePlayer();
-    player.drawImage(ctx, playerSprite);
+    player.drawObjectImage(ctx, playerSprite);
 
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
@@ -54,7 +56,7 @@ function gameLoop() {
 
     for (let bullet of playerParams.bullets) {
         bullet.updateBullet();
-        bullet.draw(ctx, "red");
+        bullet.drawObjectImage(ctx, bulletSprite);
         for (let j = 0; j < enemies.length; j++) {
             if (bullet.collidesWith(enemies[j])) {
                 console.log(bullet, enemies[j]);
@@ -98,7 +100,9 @@ function initializeWalls() {
 }
 
 function loadSprites() {
-    playerSprite = document.getElementById("julian");
+    julian = document.getElementById("julian");
+    bulletSprite = document.getElementById("bulletSprite");
+    playerSprite = document.getElementById("playerSprite");
 }
 
 window.onBodyLoad = onBodyLoad;
