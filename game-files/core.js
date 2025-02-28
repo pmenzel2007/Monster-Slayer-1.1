@@ -34,8 +34,6 @@ function onBodyLoad() {
     ctx = canvas.getContext("2d");
     loadSprites();
 
-    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);
-
     console.log(gateUp);
     gates.push(new Gate(canvas.width/2-16, 0, "up"));
     gates.push(new Gate(0,canvas.width/2-16, "left"));
@@ -43,6 +41,8 @@ function onBodyLoad() {
     gates.push(new Gate(canvas.width - 32,canvas.height/2-16, "right"));
 
     initializeWalls();
+
+    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16, walls, gates);
 
     gameLoop();
 }

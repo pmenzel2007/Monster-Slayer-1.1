@@ -1,12 +1,15 @@
 class Player extends GameObject {
     constructor(x, y) {
-        super(x, y, 32, 32);
+        super(x, y, 32, 32, walls, gates);
         this.speed = 3;
         this.movement = { up: false, down: false, left: false, right: false };
         this.attackDirection = { up: false, down: false, left: false, right: false };
         this.attackSpeed = 15;
         this.cooldown = 0;
         this.bullets = [];
+
+        this.walls = walls;
+        this.gates = gates;
 
         playerSpriteRight = document.getElementById("playerSpriteRight");
 
@@ -92,8 +95,19 @@ class Player extends GameObject {
             dy /= distance;
         }
 
-        this.x += dx * this.speed;
-        this.y += dy * this.speed;
+        let newX = this.x + dx * this.speed;
+        let newY = this.y + dy * this.speed;
+
+        let newPlayerX = {x: newX, y: this.y, height: this.height, width: this.width, id: this.id };
+
+        if (!this.checkForCollision(newPlayerX)) this.x = newX;
+
+        let newPlayerY = {x: this.x, y: newY, height: this.height, width: this.width, id: this.id };
+
+        if (!this.checkForCollision(newPlayerY)) this.y = newY;
+
+        //this.x += dx * this.speed;
+        //this.y += dy * this.speed;
 
         if (this.cooldown > 0) {
             this.cooldown--;
@@ -107,6 +121,18 @@ class Player extends GameObject {
         }
 
         return { playerX: this.x, playerY: this.y , bullets: this.bullets };
+    }
+
+    checkForCollision(bounds) {
+        for (let wall of this.walls) {
+            if (wall.collidesWith(bounds))
+                return true;
+        }
+        for (let gate of this.gates) {
+            if (gate.collidesWith(bounds))
+                return true;
+        }
+        return false;
     }
 
     drawObjectImage(ctx) {
