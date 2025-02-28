@@ -18,6 +18,11 @@ let bulletUp;
 let bulletDown;
 let bulletLeft;
 
+let gateUp;
+let gateDown;
+let gateLeft;
+let gateRight;
+
 
 let wall;
 let walls;
@@ -27,17 +32,17 @@ function onBodyLoad() {
 
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
+    loadSprites();
 
     player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);
 
-    gates.push(new Gate(canvas.width/2-16, 0));
-    gates.push(new Gate(0,canvas.width/2-16));
-    gates.push(new Gate(canvas.width/2-16, canvas.height - 32));
-    gates.push(new Gate(canvas.width - 32,canvas.height/2-16));
+    console.log(gateUp);
+    gates.push(new Gate(canvas.width/2-16, 0, "up"));
+    gates.push(new Gate(0,canvas.width/2-16, "left"));
+    gates.push(new Gate(canvas.width/2-16, canvas.height - 32, "down"));
+    gates.push(new Gate(canvas.width - 32,canvas.height/2-16, "right"));
 
     initializeWalls();
-
-    loadSprites();
 
     gameLoop();
 }
@@ -75,7 +80,12 @@ function gameLoop() {
         }
     }
 
-    gates.forEach(gate => gate.draw(ctx, "purple"));
+    gates.forEach(gate => gate.drawObjectImage(ctx));
+    //gates[0].drawObjectImage(ctx, gateRight);
+    //gates[1].drawObjectImage(ctx, gateDown);
+    //gates[2].drawObjectImage(ctx, gateLeft);
+    //gates[3].drawObjectImage(ctx, gateUp);
+
 
     for (wall of walls) {
         wall.draw(ctx, "black");
@@ -141,6 +151,7 @@ function spawnEnemies() {
 function loadSprites() {
     julian = document.getElementById("julian");
     playerSprite = document.getElementById("playerSprite");
+
 
 }
 
