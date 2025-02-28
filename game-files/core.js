@@ -13,7 +13,11 @@ let currentSecond = 0;
 
 let julian;
 let playerSprite;
-let bulletSprite;
+let bulletRight;
+let bulletUp;
+let bulletDown;
+let bulletLeft;
+
 
 let wall;
 let walls;
@@ -60,7 +64,7 @@ function gameLoop() {
 
     for (let bullet of playerParams.bullets) {
         bullet.updateBullet();
-        bullet.drawObjectImage(ctx, bulletSprite);
+        bullet.drawObjectImage(ctx, bulletRight);
         for (let enemy of enemies) {
             if (bullet.collidesWith(enemy)) {
                 console.log(bullet, enemy);
@@ -136,8 +140,8 @@ function spawnEnemies() {
 
 function loadSprites() {
     julian = document.getElementById("julian");
-    bulletSprite = document.getElementById("bulletSprite");
     playerSprite = document.getElementById("playerSprite");
+
 }
 
 window.onBodyLoad = onBodyLoad;
