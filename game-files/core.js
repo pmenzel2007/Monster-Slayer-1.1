@@ -71,8 +71,6 @@ function gameLoop() {
         enemies[i].draw(ctx, "green");
     }
 
-    player.updatePlayer(walls);
-
     for (let bullet of playerParams.bullets) {
         bullet.updateBullet();
         bullet.drawObjectImage(ctx);

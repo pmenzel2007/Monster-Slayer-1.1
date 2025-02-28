@@ -114,9 +114,6 @@ class Player extends GameObject {
 
         if (!this.checkForCollision(newPlayerY)) this.y = newY;
 
-        //this.x += dx * this.speed;
-        //this.y += dy * this.speed;
-
         if (this.cooldown > 0) {
             this.cooldown--;
         } else if (
