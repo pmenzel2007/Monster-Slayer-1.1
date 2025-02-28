@@ -4,8 +4,12 @@ let startTime;
 let player;
 let enemies = [];
 let gates = [];
+let currentGate = 0;
 
 let time;
+let seconds;
+let minutes;
+let currentSecond = 0;
 
 let julian;
 let playerSprite;
@@ -22,16 +26,9 @@ function onBodyLoad() {
 
     player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);
 
-    for (let i = 0; i < 3; i++) {
-        let x = Math.random() * (canvas.width - 32);
-        let y = Math.random() * (canvas.height - 32);
-        enemies.push(new Enemy(x, y));
-    }
-
-    // Gates erstellen und ins Array hinzufügen
     gates.push(new Gate(canvas.width/2-16, 0));
-    gates.push(new Gate(canvas.width/2-16, canvas.height - 32));
     gates.push(new Gate(0,canvas.width/2-16));
+    gates.push(new Gate(canvas.width/2-16, canvas.height - 32));
     gates.push(new Gate(canvas.width - 32,canvas.height/2-16));
 
     initializeWalls();
@@ -42,7 +39,14 @@ function onBodyLoad() {
 }
 
 function gameLoop() {
-    time = (performance.now() - startTime) / 1000;
+    time = Math.floor(performance.now() - startTime);
+    seconds = Math.floor((time / 1000) % 60);
+    minutes = Math.floor((time / 1000) / 60);
+
+
+    document.getElementById("timer").innerText =
+        `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -57,10 +61,10 @@ function gameLoop() {
     for (let bullet of playerParams.bullets) {
         bullet.updateBullet();
         bullet.drawObjectImage(ctx, bulletSprite);
-        for (let j = 0; j < enemies.length; j++) {
-            if (bullet.collidesWith(enemies[j])) {
-                console.log(bullet, enemies[j]);
-                enemies.splice(enemies.indexOf(enemies[j]), 1);
+        for (let enemy of enemies) {
+            if (bullet.collidesWith(enemy)) {
+                console.log(bullet, enemy);
+                enemies.splice(enemies.indexOf(enemy), 1);
                 playerParams.bullets.splice(playerParams.bullets.indexOf(bullet), 1);
                 break;
             }
@@ -72,6 +76,7 @@ function gameLoop() {
     for (wall of walls) {
         wall.draw(ctx, "black");
     }
+    spawnEnemies();
     requestAnimationFrame(gameLoop);
 }
 
@@ -82,7 +87,6 @@ function initializeWalls() {
 
     for (let i = 0; i < 17; i++) {
         wallX = 32 * i;
-        console.log(wallX);
         if (i !== 8) {
             walls.push(new Wall(wallX, 0));
             walls.push(new Wall(wallX, canvas.height - 32));
@@ -91,11 +95,42 @@ function initializeWalls() {
 
     for (let i = 0; i < 17; i++) {
         wallY = 32 * i;
-        console.log(wallY);
         if (i !== 8) {
             walls.push(new Wall(0, wallY));
             walls.push(new Wall(canvas.height - 32, wallY));
         }
+    }
+}
+
+function spawnEnemies() {
+
+    if (currentSecond === seconds) {
+        if (seconds <= 30) {
+            let enemyX = gates[currentGate].getX();
+            let enemyY = gates[currentGate].getY();
+            enemies.push(new Enemy(enemyX, enemyY));
+            if (currentGate !== 4) currentGate++;
+            if (currentGate === 4) currentGate = 0
+
+            currentSecond++;
+
+        }
+        if (seconds > 30) {
+            for (let gate of gates) {
+                let enemyX = gate.getX();
+                let enemyY = gate.getY();
+                enemies.push(new Enemy(enemyX, enemyY));
+            }
+
+            currentSecond += 3;
+        }
+
+        if (minutes >= 1) {
+            let spawnX = Math.random() * (canvas.width - 66) + 33;
+            let spawnY = Math.random() * (canvas.height - 66) + 33;
+            enemies.push(new Enemy(spawnX, spawnY));
+        }
+
     }
 }
 

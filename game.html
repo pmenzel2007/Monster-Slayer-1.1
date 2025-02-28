@@ -5,7 +5,7 @@
     <title>Monster Slayer</title>
     <style>
         body { text-align: center; }
-        canvas { background: #ddd; }
+        canvas { background: #37ea1b; }
     </style>
     <script src="game-files/gameObject.js"></script>
     <script src="game-files/player.js"></script>
@@ -17,8 +17,9 @@
 </head>
 <body onLoad="onBodyLoad()">
     <canvas id="canvas" width="544" height="544"></canvas>
+    <div id="timer" style="position: absolute; top: 10px; right: 10px; font-size: 20px; color: #8c8282;"></div>
     <img src="sprites/julian.png" id="julian" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/bulletsprite.png" id="bulletSprite" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/playersprite.png" id="playerSprite" alt="ImageNotFound" style="display:none;">
+    <img src="sprites/bulletSprite.png" id="bulletSprite" alt="ImageNotFound" style="display:none;">
+    <img src="sprites/playerSprite.png" id="playerSprite" alt="ImageNotFound" style="display:none;">
 </body>
 </html>
