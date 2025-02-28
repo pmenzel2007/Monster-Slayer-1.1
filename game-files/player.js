@@ -8,6 +8,10 @@ class Player extends GameObject {
         this.cooldown = 0;
         this.bullets = [];
 
+        playerSpriteRight = document.getElementById("playerSpriteRight");
+
+        this.activeSprite = playerSpriteRight;
+
         document.addEventListener("keydown", (event) => this.handleInput(event, true));
         document.addEventListener("keyup", (event) => this.handleInput(event, false));
     }
@@ -52,8 +56,14 @@ class Player extends GameObject {
 
             if (this.attackDirection.up) dy -= 1;
             if (this.attackDirection.down) dy += 1;
-            if (this.attackDirection.left) dx -= 1;
-            if (this.attackDirection.right) dx += 1;
+            if (this.attackDirection.left) {
+                dx -= 1;
+                this.activeSprite = playerSpriteLeft;
+            }
+            if (this.attackDirection.right) {
+                dx += 1;
+                this.activeSprite = playerSpriteRight;
+            }
 
             if (dx !== 0 || dy !== 0) {
                 this.bullets.push(new Bullet(this.x + (this.width/2 - 4), this.y + (this.height/2 - 4), dx, dy));
@@ -67,8 +77,14 @@ class Player extends GameObject {
 
         if (this.movement.up) dy -= 1;
         if (this.movement.down) dy += 1;
-        if (this.movement.left) dx -= 1;
-        if (this.movement.right) dx += 1;
+        if (this.movement.left) {
+            dx -= 1;
+            this.activeSprite = playerSpriteLeft;
+        }
+        if (this.movement.right) {
+            dx += 1;
+            this.activeSprite = playerSpriteRight;
+        }
 
         if (dx !== 0 || dy !== 0) {
             let distance = Math.sqrt(dx * dx + dy * dy);
@@ -91,5 +107,9 @@ class Player extends GameObject {
         }
 
         return { playerX: this.x, playerY: this.y , bullets: this.bullets };
+    }
+
+    drawObjectImage(ctx) {
+        super.drawObjectImage(ctx, this.activeSprite);
     }
 }

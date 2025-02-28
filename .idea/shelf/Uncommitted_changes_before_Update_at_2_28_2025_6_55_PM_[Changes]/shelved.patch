@@ -1,0 +1,146 @@
+Index: game-files/player.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>class Player extends GameObject {\r\n    constructor(x, y) {\r\n        super(x, y, 32, 32);\r\n        this.speed = 3;\r\n        this.movement = { up: false, down: false, left: false, right: false };\r\n        this.attackDirection = { up: false, down: false, left: false, right: false };\r\n        this.attackSpeed = 15;\r\n        this.cooldown = 0;\r\n        this.bullets = [];\r\n\r\n        document.addEventListener(\"keydown\", (event) => this.handleInput(event, true));\r\n        document.addEventListener(\"keyup\", (event) => this.handleInput(event, false));\r\n    }\r\n\r\n    handleInput(event, down) {\r\n        switch (event.code) {\r\n            case \"KeyW\": this.movement.up = down; break;\r\n            case \"KeyS\": this.movement.down = down; break;\r\n            case \"KeyD\": this.movement.right = down; break;\r\n            case \"KeyA\": this.movement.left = down; break;\r\n        }\r\n\r\n        if ([\"ArrowUp\", \"ArrowDown\", \"ArrowRight\", \"ArrowLeft\"].includes(event.code)) {\r\n            this.changeAttackDirection(event, down);\r\n        }\r\n\r\n    }\r\n\r\n    changeAttackDirection(event, down) {\r\n        if (down) {\r\n            this.attackDirection = {\r\n                up: event.code === \"ArrowUp\",\r\n                down: event.code === \"ArrowDown\",\r\n                right: event.code === \"ArrowRight\",\r\n                left: event.code === \"ArrowLeft\"\r\n            };\r\n        } else {\r\n            this.attackDirection = {\r\n                up: false,\r\n                down: false,\r\n                right: false,\r\n                left: false\r\n            }\r\n        }\r\n\r\n        this.fireBullet();\r\n    }\r\n\r\n    fireBullet() {\r\n        if (this.cooldown === 0) {\r\n            let dx = 0, dy = 0;\r\n\r\n            if (this.attackDirection.up) dy -= 1;\r\n            if (this.attackDirection.down) dy += 1;\r\n            if (this.attackDirection.left) dx -= 1;\r\n            if (this.attackDirection.right) dx += 1;\r\n\r\n            if (dx !== 0 || dy !== 0) {\r\n                this.bullets.push(new Bullet(this.x + (this.width/2 - 4), this.y + (this.height/2 - 4), dx, dy));\r\n            }\r\n            this.cooldown = this.attackSpeed;\r\n        }\r\n    }\r\n\r\n    updatePlayer() {\r\n        let dx = 0, dy = 0;\r\n\r\n        if (this.movement.up) dy -= 1;\r\n        if (this.movement.down) dy += 1;\r\n        if (this.movement.left) dx -= 1;\r\n        if (this.movement.right) dx += 1;\r\n\r\n        if (dx !== 0 || dy !== 0) {\r\n            let distance = Math.sqrt(dx * dx + dy * dy);\r\n            dx /= distance;\r\n            dy /= distance;\r\n        }\r\n\r\n        this.x += dx * this.speed;\r\n        this.y += dy * this.speed;\r\n\r\n        if (this.cooldown > 0) {\r\n            this.cooldown--;\r\n        }\r\n        else if (\r\n            this.attackDirection.up ||\r\n            this.attackDirection.down ||\r\n            this.attackDirection.right ||\r\n            this.attackDirection.left) {\r\n            this.fireBullet();\r\n        }\r\n\r\n        return { playerX: this.x, playerY: this.y , bullets: this.bullets };\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game-files/player.js b/game-files/player.js
+--- a/game-files/player.js	(revision 2b3ce40c5e42bf4d6e702a65fb5210640fcb1316)
++++ b/game-files/player.js	(date 1740763943713)
+@@ -8,6 +8,10 @@
+         this.cooldown = 0;
+         this.bullets = [];
+ 
++        playerSpriteRight = document.getElementById("playerSpriteRight");
++
++        this.activeSprite = playerSpriteRight;
++
+         document.addEventListener("keydown", (event) => this.handleInput(event, true));
+         document.addEventListener("keyup", (event) => this.handleInput(event, false));
+     }
+@@ -52,8 +56,14 @@
+ 
+             if (this.attackDirection.up) dy -= 1;
+             if (this.attackDirection.down) dy += 1;
+-            if (this.attackDirection.left) dx -= 1;
+-            if (this.attackDirection.right) dx += 1;
++            if (this.attackDirection.left) {
++                dx -= 1;
++                this.activeSprite = playerSpriteLeft;
++            }
++            if (this.attackDirection.right) {
++                dx += 1;
++                this.activeSprite = playerSpriteRight;
++            }
+ 
+             if (dx !== 0 || dy !== 0) {
+                 this.bullets.push(new Bullet(this.x + (this.width/2 - 4), this.y + (this.height/2 - 4), dx, dy));
+@@ -92,4 +102,8 @@
+ 
+         return { playerX: this.x, playerY: this.y , bullets: this.bullets };
+     }
++
++    drawObjectImage(ctx) {
++        super.drawObjectImage(ctx, this.activeSprite);
++    }
+ }
+\ No newline at end of file
+Index: game.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Monster Slayer</title>\r\n    <style>\r\n        body { text-align: center; }\r\n        canvas { background: #ddd; }\r\n    </style>\r\n    <script src=\"game-files/gameObject.js\"></script>\r\n    <script src=\"game-files/player.js\"></script>\r\n    <script src=\"game-files/bullet.js\"></script>\r\n    <script src=\"game-files/enemy.js\"></script>\r\n    <script src=\"game-files/gates.js\"></script>\r\n    <script src=\"game-files/wall.js\"></script>\r\n    <script src=\"game-files/core.js\"></script>\r\n</head>\r\n<body onLoad=\"onBodyLoad()\">\r\n    <canvas id=\"canvas\" width=\"544\" height=\"544\"></canvas>\r\n    <div id=\"timer\" style=\"position: absolute; top: 10px; right: 10px; font-size: 20px; color: #8c8282;\"></div>\r\n    <img src=\"sprites/julian.png\" id=\"julian\" alt=\"ImageNotFound\" style=\"display:none;\">\r\n    <img src=\"sprites/playerSprite.png\" id=\"playerSprite\" alt=\"ImageNotFound\" style=\"display:none;\">\r\n    <img src=\"sprites/bulletRight.png\" id=\"bulletRight\" alt=\"ImageNotFound\" style=\"display:none;\">\r\n    <img src=\"sprites/bulletUp.png\" id=\"bulletUp\" alt=\"ImageNotFound\" style=\"display:none;\">\r\n    <img src=\"sprites/bulletDown.png\" id=\"bulletDown\" alt=\"ImageNotFound\" style=\"display:none;\">\r\n    <img src=\"sprites/bulletLeft.png\" id=\"bulletLeft\" alt=\"ImageNotFound\" style=\"display:none;\">\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game.html b/game.html
+--- a/game.html	(revision 2b3ce40c5e42bf4d6e702a65fb5210640fcb1316)
++++ b/game.html	(date 1740762779576)
+@@ -19,7 +19,8 @@
+     <canvas id="canvas" width="544" height="544"></canvas>
+     <div id="timer" style="position: absolute; top: 10px; right: 10px; font-size: 20px; color: #8c8282;"></div>
+     <img src="sprites/julian.png" id="julian" alt="ImageNotFound" style="display:none;">
+-    <img src="sprites/playerSprite.png" id="playerSprite" alt="ImageNotFound" style="display:none;">
++    <img src="sprites/playerSpriteRight.png" id="playerSpriteRight" alt="ImageNotFound" style="display:none;">
++    <img src="sprites/playerSpriteLeft.png" id="playerSpriteLeft" alt="ImageNotFound" style="display:none;">
+     <img src="sprites/bulletRight.png" id="bulletRight" alt="ImageNotFound" style="display:none;">
+     <img src="sprites/bulletUp.png" id="bulletUp" alt="ImageNotFound" style="display:none;">
+     <img src="sprites/bulletDown.png" id="bulletDown" alt="ImageNotFound" style="display:none;">
+Index: game-files/core.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>let canvas;\r\nlet ctx;\r\nlet startTime;\r\nlet player;\r\nlet enemies = [];\r\nlet gates = [];\r\nlet currentGate = 0;\r\n\r\nlet time;\r\nlet seconds;\r\nlet minutes;\r\nlet currentSecond = 0;\r\n\r\nlet julian;\r\nlet playerSprite;\r\nlet bulletRight;\r\nlet bulletUp;\r\nlet bulletDown;\r\nlet bulletLeft;\r\n\r\n\r\nlet wall;\r\nlet walls;\r\n\r\nfunction onBodyLoad() {\r\n    startTime = performance.now();\r\n\r\n    canvas = document.getElementById(\"canvas\");\r\n    ctx = canvas.getContext(\"2d\");\r\n\r\n    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16);\r\n\r\n    gates.push(new Gate(canvas.width/2-16, 0));\r\n    gates.push(new Gate(0,canvas.width/2-16));\r\n    gates.push(new Gate(canvas.width/2-16, canvas.height - 32));\r\n    gates.push(new Gate(canvas.width - 32,canvas.height/2-16));\r\n\r\n    initializeWalls();\r\n\r\n    loadSprites();\r\n\r\n    gameLoop();\r\n}\r\n\r\nfunction gameLoop() {\r\n    time = Math.floor(performance.now() - startTime);\r\n    seconds = Math.floor((time / 1000) % 60);\r\n    minutes = Math.floor((time / 1000) / 60);\r\n\r\n\r\n    document.getElementById(\"timer\").innerText =\r\n        `${minutes.toString().padStart(2, \"0\")}:${seconds.toString().padStart(2, \"0\")}`;\r\n\r\n\r\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\r\n\r\n    let playerParams = player.updatePlayer();\r\n    player.drawObjectImage(ctx, playerSprite);\r\n\r\n    for (let i = 0; i < enemies.length; i++) {\r\n        enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);\r\n        enemies[i].draw(ctx, \"green\");\r\n    }\r\n\r\n    for (let bullet of playerParams.bullets) {\r\n        bullet.updateBullet();\r\n        bullet.drawObjectImage(ctx, bulletRight);\r\n        for (let enemy of enemies) {\r\n            if (bullet.collidesWith(enemy)) {\r\n                console.log(bullet, enemy);\r\n                enemies.splice(enemies.indexOf(enemy), 1);\r\n                playerParams.bullets.splice(playerParams.bullets.indexOf(bullet), 1);\r\n                break;\r\n            }\r\n        }\r\n    }\r\n\r\n    gates.forEach(gate => gate.draw(ctx, \"purple\"));\r\n\r\n    for (wall of walls) {\r\n        wall.draw(ctx, \"black\");\r\n    }\r\n    spawnEnemies();\r\n    requestAnimationFrame(gameLoop);\r\n}\r\n\r\nfunction initializeWalls() {\r\n    walls = [];\r\n    let wallX = 0;\r\n    let wallY = 0;\r\n\r\n    for (let i = 0; i < 17; i++) {\r\n        wallX = 32 * i;\r\n        if (i !== 8) {\r\n            walls.push(new Wall(wallX, 0));\r\n            walls.push(new Wall(wallX, canvas.height - 32));\r\n        }\r\n    }\r\n\r\n    for (let i = 0; i < 17; i++) {\r\n        wallY = 32 * i;\r\n        if (i !== 8) {\r\n            walls.push(new Wall(0, wallY));\r\n            walls.push(new Wall(canvas.height - 32, wallY));\r\n        }\r\n    }\r\n}\r\n\r\nfunction spawnEnemies() {\r\n\r\n    if (currentSecond === seconds) {\r\n        if (seconds <= 30) {\r\n            let enemyX = gates[currentGate].getX();\r\n            let enemyY = gates[currentGate].getY();\r\n            enemies.push(new Enemy(enemyX, enemyY));\r\n            if (currentGate !== 4) currentGate++;\r\n            if (currentGate === 4) currentGate = 0\r\n\r\n            currentSecond++;\r\n\r\n        }\r\n        if (seconds > 30) {\r\n            for (let gate of gates) {\r\n                let enemyX = gate.getX();\r\n                let enemyY = gate.getY();\r\n                enemies.push(new Enemy(enemyX, enemyY));\r\n            }\r\n\r\n            currentSecond += 3;\r\n        }\r\n\r\n        if (minutes >= 1) {\r\n            let spawnX = Math.random() * (canvas.width - 66) + 33;\r\n            let spawnY = Math.random() * (canvas.height - 66) + 33;\r\n            enemies.push(new Enemy(spawnX, spawnY));\r\n        }\r\n\r\n    }\r\n}\r\n\r\nfunction loadSprites() {\r\n    julian = document.getElementById(\"julian\");\r\n    playerSprite = document.getElementById(\"playerSprite\");\r\n\r\n}\r\n\r\nwindow.onBodyLoad = onBodyLoad;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game-files/core.js b/game-files/core.js
+--- a/game-files/core.js	(revision 2b3ce40c5e42bf4d6e702a65fb5210640fcb1316)
++++ b/game-files/core.js	(date 1740763906878)
+@@ -12,13 +12,13 @@
+ let currentSecond = 0;
+ 
+ let julian;
+-let playerSprite;
+-let bulletRight;
++let playerSpriteRight;
++let playerSpriteLeft;
+ let bulletUp;
++let bulletRight;
+ let bulletDown;
+ let bulletLeft;
+ 
+-
+ let wall;
+ let walls;
+ 
+@@ -55,7 +55,7 @@
+     ctx.clearRect(0, 0, canvas.width, canvas.height);
+ 
+     let playerParams = player.updatePlayer();
+-    player.drawObjectImage(ctx, playerSprite);
++    player.drawObjectImage(ctx);
+ 
+     for (let i = 0; i < enemies.length; i++) {
+         enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
+@@ -64,7 +64,7 @@
+ 
+     for (let bullet of playerParams.bullets) {
+         bullet.updateBullet();
+-        bullet.drawObjectImage(ctx, bulletRight);
++        bullet.drawObjectImage(ctx);
+         for (let enemy of enemies) {
+             if (bullet.collidesWith(enemy)) {
+                 console.log(bullet, enemy);
+@@ -140,8 +140,8 @@
+ 
+ function loadSprites() {
+     julian = document.getElementById("julian");
+-    playerSprite = document.getElementById("playerSprite");
+-
++    playerSpriteRight = document.getElementById("playerSpriteRight");
++    playerSpriteLeft = document.getElementById("playerSpriteLeft");
+ }
+ 
+ window.onBodyLoad = onBodyLoad;
+\ No newline at end of file
+Index: game-files/bullet.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>class Bullet extends GameObject {\r\n    constructor(x, y, dirX, dirY) {\r\n        super(x, y, 8, 8)\r\n        bulletUp = document.getElementById(\"bulletUp\");\r\n        bulletRight = document.getElementById(\"bulletRight\");\r\n        bulletDown = document.getElementById(\"bulletDown\");\r\n        bulletLeft = document.getElementById(\"bulletLeft\");\r\n\r\n        this.dirX = dirX;\r\n        this.dirY = dirY;\r\n        this.speed = 5;\r\n        this.direction = { up: false , down: false , left: false , right: false };\r\n    }\r\n\r\n    updateBullet() {\r\n        this.x += this.dirX * this.speed;\r\n        this.y += this.dirY * this.speed;\r\n\r\n        this.direction.up = this.dirY === -1;\r\n        this.direction.down = this.dirY === 1;\r\n        this.direction.left = this.dirX === -1;\r\n        this.direction.right = this.dirX === 1;\r\n\r\n    }\r\n    drawObjectImage(ctx, image) {\r\n        this.image = image;\r\n        if(this.direction.up) this.image = bulletUp;\r\n        if(this.direction.down) this.image = bulletDown;\r\n        if(this.direction.left) this.image = bulletLeft;\r\n        if(this.direction.right) this.image = bulletRight;\r\n\r\n        super.drawObjectImage(ctx, this.image);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game-files/bullet.js b/game-files/bullet.js
+--- a/game-files/bullet.js	(revision 2b3ce40c5e42bf4d6e702a65fb5210640fcb1316)
++++ b/game-files/bullet.js	(date 1740763607214)
+@@ -22,8 +22,8 @@
+         this.direction.right = this.dirX === 1;
+ 
+     }
+-    drawObjectImage(ctx, image) {
+-        this.image = image;
++    drawObjectImage(ctx) {
++        this.image = bulletRight;
+         if(this.direction.up) this.image = bulletUp;
+         if(this.direction.down) this.image = bulletDown;
+         if(this.direction.left) this.image = bulletLeft;

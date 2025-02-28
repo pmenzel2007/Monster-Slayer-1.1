@@ -22,8 +22,8 @@ class Bullet extends GameObject {
         this.direction.right = this.dirX === 1;
 
     }
-    drawObjectImage(ctx, image) {
-        this.image = image;
+    drawObjectImage(ctx) {
+        this.image = bulletRight;
         if(this.direction.up) this.image = bulletUp;
         if(this.direction.down) this.image = bulletDown;
         if(this.direction.left) this.image = bulletLeft;

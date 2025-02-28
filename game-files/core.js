@@ -12,9 +12,10 @@ let minutes;
 let currentSecond = 0;
 
 let julian;
-let playerSprite;
-let bulletRight;
+let playerSpriteRight;
+let playerSpriteLeft;
 let bulletUp;
+let bulletRight;
 let bulletDown;
 let bulletLeft;
 
@@ -22,7 +23,6 @@ let gateUp;
 let gateDown;
 let gateLeft;
 let gateRight;
-
 
 let wall;
 let walls;
@@ -60,7 +60,7 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let playerParams = player.updatePlayer();
-    player.drawObjectImage(ctx, playerSprite);
+    player.drawObjectImage(ctx);
 
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
@@ -69,7 +69,7 @@ function gameLoop() {
 
     for (let bullet of playerParams.bullets) {
         bullet.updateBullet();
-        bullet.drawObjectImage(ctx, bulletRight);
+        bullet.drawObjectImage(ctx);
         for (let enemy of enemies) {
             if (bullet.collidesWith(enemy)) {
                 console.log(bullet, enemy);
@@ -81,11 +81,6 @@ function gameLoop() {
     }
 
     gates.forEach(gate => gate.drawObjectImage(ctx));
-    //gates[0].drawObjectImage(ctx, gateRight);
-    //gates[1].drawObjectImage(ctx, gateDown);
-    //gates[2].drawObjectImage(ctx, gateLeft);
-    //gates[3].drawObjectImage(ctx, gateUp);
-
 
     for (wall of walls) {
         wall.draw(ctx, "black");
@@ -118,7 +113,8 @@ function initializeWalls() {
 
 function spawnEnemies() {
 
-    if (currentSecond === seconds) {
+    console.log(seconds);
+    if (currentSecond === seconds + minutes * 60) {
         if (seconds <= 30) {
             let enemyX = gates[currentGate].getX();
             let enemyY = gates[currentGate].getY();
@@ -129,7 +125,7 @@ function spawnEnemies() {
             currentSecond++;
 
         }
-        if (seconds > 30) {
+        if (seconds + minutes * 60 > 30) {
             for (let gate of gates) {
                 let enemyX = gate.getX();
                 let enemyY = gate.getY();
@@ -150,8 +146,8 @@ function spawnEnemies() {
 
 function loadSprites() {
     julian = document.getElementById("julian");
-    playerSprite = document.getElementById("playerSprite");
-
+    playerSpriteRight = document.getElementById("playerSpriteRight");
+    playerSpriteLeft = document.getElementById("playerSpriteLeft");
 
 }
 
