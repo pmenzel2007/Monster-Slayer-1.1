@@ -27,6 +27,8 @@ let gateRight;
 let wall;
 let walls;
 
+let score = 0;
+
 function onBodyLoad() {
     startTime = performance.now();
 
@@ -56,6 +58,8 @@ function gameLoop() {
     document.getElementById("timer").innerText =
         `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 
+    document.getElementById("score").innerText = `Score: ${score}`;
+
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -67,6 +71,8 @@ function gameLoop() {
         enemies[i].draw(ctx, "green");
     }
 
+    player.updatePlayer(walls);
+
     for (let bullet of playerParams.bullets) {
         bullet.updateBullet();
         bullet.drawObjectImage(ctx);
@@ -75,6 +81,7 @@ function gameLoop() {
                 console.log(bullet, enemy);
                 enemies.splice(enemies.indexOf(enemy), 1);
                 playerParams.bullets.splice(playerParams.bullets.indexOf(bullet), 1);
+                score += 10 + 10 * minutes;
                 break;
             }
         }

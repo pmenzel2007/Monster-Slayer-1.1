@@ -2,8 +2,8 @@ class Player extends GameObject {
     constructor(x, y) {
         super(x, y, 32, 32, walls, gates);
         this.speed = 3;
-        this.movement = { up: false, down: false, left: false, right: false };
-        this.attackDirection = { up: false, down: false, left: false, right: false };
+        this.movement = {up: false, down: false, left: false, right: false};
+        this.attackDirection = {up: false, down: false, left: false, right: false};
         this.attackSpeed = 15;
         this.cooldown = 0;
         this.bullets = [];
@@ -21,10 +21,18 @@ class Player extends GameObject {
 
     handleInput(event, down) {
         switch (event.code) {
-            case "KeyW": this.movement.up = down; break;
-            case "KeyS": this.movement.down = down; break;
-            case "KeyD": this.movement.right = down; break;
-            case "KeyA": this.movement.left = down; break;
+            case "KeyW":
+                this.movement.up = down;
+                break;
+            case "KeyS":
+                this.movement.down = down;
+                break;
+            case "KeyD":
+                this.movement.right = down;
+                break;
+            case "KeyA":
+                this.movement.left = down;
+                break;
         }
 
         if (["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"].includes(event.code)) {
@@ -69,7 +77,7 @@ class Player extends GameObject {
             }
 
             if (dx !== 0 || dy !== 0) {
-                this.bullets.push(new Bullet(this.x + (this.width/2 - 4), this.y + (this.height/2 - 4), dx, dy));
+                this.bullets.push(new Bullet(this.x + (this.width / 2 - 4), this.y + (this.height / 2 - 4), dx, dy));
             }
             this.cooldown = this.attackSpeed;
         }
@@ -111,8 +119,7 @@ class Player extends GameObject {
 
         if (this.cooldown > 0) {
             this.cooldown--;
-        }
-        else if (
+        } else if (
             this.attackDirection.up ||
             this.attackDirection.down ||
             this.attackDirection.right ||
@@ -120,7 +127,7 @@ class Player extends GameObject {
             this.fireBullet();
         }
 
-        return { playerX: this.x, playerY: this.y , bullets: this.bullets };
+        return {playerX: this.x, playerY: this.y, bullets: this.bullets};
     }
 
     checkForCollision(bounds) {
