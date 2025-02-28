@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: url('sprites/pixelGrass.jpg');
+      background: url('sprites/credits.png');
       background-size: cover;
       display: flex;
       justify-content: center;
@@ -14,19 +14,44 @@
       height: 100vh;
       margin: 0;
       text-align: center;
+      color: limegreen;
     }
+
     .credits {
       max-width: 600px;
     }
+
     h1 {
       margin-bottom: 20px;
     }
+
     p {
       margin: 5px 0;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background-color: transparent;
+      color: limegreen;
+      border: 2px solid limegreen;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .back-button:hover {
+      background-color: limegreen;
+      color: black;
     }
   </style>
 </head>
 <body>
+
+<button class="back-button" onclick="goToMenu()">← Back to Menu</button>
+
 <div class="credits">
   <h1>Game Credits</h1>
   <h2>Development Team</h2>
@@ -35,10 +60,16 @@
   <p>Niklas Weithaler - Developer</p>
   <p>Niklas Weithaler - Artist</p>
 
-
   <h2>Testing</h2>
   <p>QA Team</p>
   <p>Beta Testers</p>
 </div>
+
+<script>
+  function goToMenu() {
+    window.location.href = 'menu.html';
+  }
+</script>
+
 </body>
 </html>

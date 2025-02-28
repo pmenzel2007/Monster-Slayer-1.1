@@ -4,8 +4,49 @@
     <meta charset="UTF-8">
     <title>Monster Slayer</title>
     <style>
-        body { text-align: center; }
-        canvas { background: #ddd; }
+        body {
+            text-align: center;
+            margin: 0;
+            position: relative;
+            background-color: #111;
+        }
+
+        canvas {
+            background: url("sprites/grass.png");
+            background-size: cover;
+            margin: auto;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: black;
+            color: limegreen;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background-color: limegreen;
+            color: black;
+        }
+
+        #timer, #score {
+            position: absolute;
+            font-size: 28px;
+            font-weight: bold;
+            color: limegreen;
+            right: 10px;
+        }
+
+        #timer {
+            top: 10px;
+        }
+
+        #score {
+            top: 50px;
+        }
     </style>
     <script src="game-files/gameObject.js"></script>
     <script src="game-files/player.js"></script>
@@ -16,19 +57,31 @@
     <script src="game-files/core.js"></script>
 </head>
 <body onLoad="onBodyLoad()">
-    <canvas id="canvas" width="544" height="544"></canvas>
-    <div id="timer" style="position: absolute; top: 10px; right: 10px; font-size: 20px; color: #8c8282;"></div>
-    <div id="score" style="position: absolute; top: 10px; left: 10px; font-size: 20px; color: #8c8282;"></div>
-    <img src="sprites/julian.png" id="julian" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/playerSpriteRight.png" id="playerSpriteRight" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/playerSpriteLeft.png" id="playerSpriteLeft" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/bulletRight.png" id="bulletRight" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/bulletUp.png" id="bulletUp" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/bulletDown.png" id="bulletDown" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/bulletLeft.png" id="bulletLeft" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/gateUp.png" id="gateUp" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/gateDown.png" id="gateDown" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/gateLeft.png" id="gateLeft" alt="ImageNotFound" style="display:none;">
-    <img src="sprites/gateRight.png" id="gateRight" alt="ImageNotFound" style="display:none;">
+<button class="back-button" onclick="goToMenu()">← Back to Menu</button>
+
+<canvas id="canvas" width="544" height="544"></canvas>
+
+<div id="timer">Time: 0</div>
+<div id="score">Score: 0</div>
+
+<img src="sprites/julian.png" id="julian" alt="ImageNotFound" style="display:none;">
+<img src="sprites/playerSpriteRight.png" id="playerSpriteRight" alt="ImageNotFound" style="display:none;">
+<img src="sprites/playerSpriteLeft.png" id="playerSpriteLeft" alt="ImageNotFound" style="display:none;">
+<img src="sprites/bulletRight.png" id="bulletRight" alt="ImageNotFound" style="display:none;">
+<img src="sprites/bulletUp.png" id="bulletUp" alt="ImageNotFound" style="display:none;">
+<img src="sprites/bulletDown.png" id="bulletDown" alt="ImageNotFound" style="display:none;">
+<img src="sprites/bulletLeft.png" id="bulletLeft" alt="ImageNotFound" style="display:none;">
+<img src="sprites/gateUp.png" id="gateUp" alt="ImageNotFound" style="display:none;">
+<img src="sprites/gateDown.png" id="gateDown" alt="ImageNotFound" style="display:none;">
+<img src="sprites/gateLeft.png" id="gateLeft" alt="ImageNotFound" style="display:none;">
+<img src="sprites/gateRight.png" id="gateRight" alt="ImageNotFound" style="display:none;">
+<img src="sprites/monsterEnemyLeft.png" id="monsterEnemyLeft" alt="ImageNotFound" style="display:none;">
+<img src="sprites/monsterEnemyRight.png" id="monsterEnemyRight" alt="ImageNotFound" style="display:none;">
+
+<script>
+    function goToMenu() {
+        window.location.href = 'menu.html';
+    }
+</script>
 </body>
 </html>

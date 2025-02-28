@@ -2,49 +2,60 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Game Menu</title>
+    <title>Monster Slayer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: url('sprites/pixelGrass.jpg');
+            background: url('sprites/monsterslayer2.png');
             background-size: cover;
-            display: flex;
-            justify-content: center;
+            height: 100vh;
             text-align: center;
+            color: black;
         }
-        .menu {
-            text-align: center;
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 10px;
         }
+
+        h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
         .menu button {
             width: 200px;
             margin: 10px;
             padding: 15px;
             font-size: 18px;
             cursor: pointer;
-            background-color: #61dafb;
+            background-color: black;
             border-radius: 5px;
-            color: #282c34;
+            border: none;
+            color: limegreen;
+            font-weight: bold;
+        }
+
+        .menu button:hover {
+            background-color: yellowgreen;
         }
     </style>
 </head>
 <body>
+<h1>Monster Slayer</h1>
+<h2>Game Menu</h2>
 <div class="menu">
-    <h1>Game Menu</h1>
     <button onclick="startGame()">Start Game</button>
     <button onclick="showCredits()">Credits</button>
 </div>
 
 <script>
     function startGame() {
-        alert('Starting the game...');
         window.location.href = 'game.html';
-
     }
 
     function showCredits() {
-        alert('Showing credits...');
         window.location.href = 'credits.html';
-
     }
 </script>
 </body>
