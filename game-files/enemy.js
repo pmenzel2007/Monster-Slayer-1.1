@@ -2,6 +2,11 @@ class Enemy extends GameObject {
     constructor(x, y) {
         super(x, y, 32, 32);
         this.speed = 1;
+
+        monsterEnemyRight = document.getElementById("monsterEnemyRight");
+        monsterEnemyLeft = document.getElementById("monsterEnemyLeft");
+
+        this.activeSprite = monsterEnemyRight;
     }
 
     update(playerX, playerY, enemies) {
@@ -33,6 +38,10 @@ class Enemy extends GameObject {
         if (!this.checkForCollision(thisEnemyY, enemies)) {
             this.y = newY;
         }
+
+        if (this.x < playerX) this.activeSprite = monsterEnemyRight;
+        if (this.x > playerX) this.activeSprite = monsterEnemyLeft;
+
     }
 
     checkForCollision(bounds, enemies) {
@@ -42,5 +51,9 @@ class Enemy extends GameObject {
             }
         }
         return false;
+    }
+
+    drawObjectImage(ctx) {
+        super.drawObjectImage(ctx, this.activeSprite);
     }
 }

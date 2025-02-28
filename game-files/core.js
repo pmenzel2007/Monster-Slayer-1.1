@@ -18,6 +18,8 @@ let bulletUp;
 let bulletRight;
 let bulletDown;
 let bulletLeft;
+let monsterEnemyLeft;
+let monsterEnemyRight;
 
 let gateUp;
 let gateDown;
@@ -60,7 +62,6 @@ function gameLoop() {
 
     document.getElementById("score").innerText = `Score: ${score}`;
 
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     let playerParams = player.updatePlayer();
@@ -68,7 +69,7 @@ function gameLoop() {
 
     for (let i = 0; i < enemies.length; i++) {
         enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
-        enemies[i].draw(ctx, "green");
+        enemies[i].drawObjectImage(ctx);
     }
 
     for (let bullet of playerParams.bullets) {
