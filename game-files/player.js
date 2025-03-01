@@ -1,3 +1,4 @@
+//class that represents the player
 class Player extends GameObject {
     constructor(x, y) {
         super(x, y, 32, 32, walls, gates);
@@ -83,6 +84,9 @@ class Player extends GameObject {
         }
     }
 
+    //updates the player with new position
+    //also checks for collisions with walls and gates
+    //also fires bullets
     updatePlayer() {
         let dx = 0, dy = 0;
 
@@ -127,6 +131,7 @@ class Player extends GameObject {
         return {playerX: this.x, playerY: this.y, bullets: this.bullets};
     }
 
+    //checks if player collides with a wall or a gate
     checkForCollision(bounds) {
         for (let wall of this.walls) {
             if (wall.collidesWith(bounds))
@@ -139,6 +144,7 @@ class Player extends GameObject {
         return false;
     }
 
+    //overrides the drawObjectImage function from gameObject
     drawObjectImage(ctx) {
         super.drawObjectImage(ctx, this.activeSprite);
     }

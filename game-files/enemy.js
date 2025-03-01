@@ -1,3 +1,4 @@
+//class represents all Enemies
 class Enemy extends GameObject {
     constructor(x, y) {
         super(x, y, 32, 32);
@@ -9,6 +10,8 @@ class Enemy extends GameObject {
         this.activeSprite = monsterEnemyRight;
     }
 
+    //updates the enemy with new position
+    //also checks for collision with the player
     update(playerX, playerY, enemies) {
         let distanceX = Math.abs(playerX - this.x);
         let distanceY = Math.abs(playerY - this.y)
@@ -49,6 +52,7 @@ class Enemy extends GameObject {
 
     }
 
+    //checks if this enemy collides with any other enemy to prevent overlapping
     checkForCollision(bounds, enemies) {
         for (let i = 0; i < enemies.length; i++) {
             if (enemies[i].collidesWith(bounds)) {
@@ -58,6 +62,7 @@ class Enemy extends GameObject {
         return false;
     }
 
+    //overrides the drawObjectImage function from gameObject
     drawObjectImage(ctx) {
         super.drawObjectImage(ctx, this.activeSprite);
     }

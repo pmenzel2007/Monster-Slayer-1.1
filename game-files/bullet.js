@@ -1,3 +1,4 @@
+//class representing all bullets
 class Bullet extends GameObject {
     constructor(x, y, dirX, dirY) {
         super(x, y, 8, 8)
@@ -12,6 +13,7 @@ class Bullet extends GameObject {
         this.direction = { up: false , down: false , left: false , right: false };
     }
 
+    //updates the position of the bullet
     updateBullet() {
         this.x += this.dirX * this.speed;
         this.y += this.dirY * this.speed;
@@ -22,6 +24,8 @@ class Bullet extends GameObject {
         this.direction.right = this.dirX === 1;
 
     }
+
+    //overrides the drawObjectImage function from gameObject
     drawObjectImage(ctx) {
         this.image = bulletRight;
         if(this.direction.up) this.image = bulletUp;

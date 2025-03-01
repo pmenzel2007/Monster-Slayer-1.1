@@ -1,4 +1,4 @@
-// Gate-Klasse
+//class represents all gates
 class Gate extends GameObject {
     constructor(x, y, direction) {
         super(x, y, 32, 32);
@@ -12,6 +12,8 @@ class Gate extends GameObject {
         this.direction = direction;
 
     }
+
+    //overrides the drawObjectImage function from gameObject
     drawObjectImage(ctx) {
         this.image = undefined;
         if (this.direction === "up") this.image = gateUp;

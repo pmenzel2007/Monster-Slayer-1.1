@@ -1,3 +1,4 @@
+//class that represents all other game objects
 class GameObject {
     static nextId = 0;
     constructor(x, y, width, height) {
@@ -8,6 +9,7 @@ class GameObject {
         this.id = GameObject.nextId++;
     }
 
+    //checks if this game object overlaps with another game object
     collidesWith(other) {
         if (this.id === other.id) return false;
 
@@ -17,17 +19,15 @@ class GameObject {
             this.y + this.height > other.y;
     }
 
+    //used to draw game object as rectangle
     draw(ctx, color) {
         ctx.fillStyle = color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
+    //used to draw game object as image
     drawObjectImage(ctx, image) {
         ctx.drawImage(image, this.x, this.y, this.width, this.height);
-    }
-
-    getId() {
-        return this.id;
     }
 
     getX() {

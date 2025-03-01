@@ -1,3 +1,4 @@
+//defining global variables
 let canvas;
 let ctx;
 let startTime;
@@ -35,6 +36,7 @@ let paused = false;
 
 let alive = true;
 
+//initializes the game and variables
 function onBodyLoad() {
     startTime = performance.now();
 
@@ -69,6 +71,7 @@ function onBodyLoad() {
     gameLoop();
 }
 
+//main loop for the game
 function gameLoop() {
     if (paused) return;
 
@@ -116,10 +119,12 @@ function gameLoop() {
     else finishGame();
 }
 
+//gets called when player dies
 function finishGame() {
     document.getElementById("gameOverPopup").style.display = "block";
 }
 
+//restarts the game
 function restartGame() {
     document.getElementById("gameOverPopup").style.display = "none";
     startTime = performance.now();
@@ -186,7 +191,6 @@ function spawnEnemies() {
 }
 
 function loadSprites() {
-    julian = document.getElementById("julian");
     playerSpriteRight = document.getElementById("playerSpriteRight");
     playerSpriteLeft = document.getElementById("playerSpriteLeft");
 
