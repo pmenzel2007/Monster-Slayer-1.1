@@ -1,0 +1,73 @@
+Index: game-files/core.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>let canvas;\r\nlet ctx;\r\nlet startTime;\r\nlet player;\r\nlet enemies = [];\r\nlet gates = [];\r\nlet currentGate = 0;\r\n\r\nlet time;\r\nlet seconds;\r\nlet minutes;\r\nlet currentSecond = 0;\r\n\r\nlet julian;\r\nlet playerSpriteRight;\r\nlet playerSpriteLeft;\r\nlet bulletUp;\r\nlet bulletRight;\r\nlet bulletDown;\r\nlet bulletLeft;\r\n\r\nlet gateUp;\r\nlet gateDown;\r\nlet gateLeft;\r\nlet gateRight;\r\n\r\nlet wall;\r\nlet walls;\r\n\r\nlet score = 0;\r\n\r\nfunction onBodyLoad() {\r\n    startTime = performance.now();\r\n\r\n    canvas = document.getElementById(\"canvas\");\r\n    ctx = canvas.getContext(\"2d\");\r\n    loadSprites();\r\n\r\n    console.log(gateUp);\r\n    gates.push(new Gate(canvas.width/2-16, 0, \"up\"));\r\n    gates.push(new Gate(0,canvas.width/2-16, \"left\"));\r\n    gates.push(new Gate(canvas.width/2-16, canvas.height - 32, \"down\"));\r\n    gates.push(new Gate(canvas.width - 32,canvas.height/2-16, \"right\"));\r\n\r\n    initializeWalls();\r\n\r\n    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16, walls, gates);\r\n\r\n    gameLoop();\r\n}\r\n\r\nfunction gameLoop() {\r\n    time = Math.floor(performance.now() - startTime);\r\n    seconds = Math.floor((time / 1000) % 60);\r\n    minutes = Math.floor((time / 1000) / 60);\r\n\r\n\r\n    document.getElementById(\"timer\").innerText =\r\n        `${minutes.toString().padStart(2, \"0\")}:${seconds.toString().padStart(2, \"0\")}`;\r\n\r\n    document.getElementById(\"score\").innerText = `Score: ${score}`;\r\n\r\n\r\n    ctx.clearRect(0, 0, canvas.width, canvas.height);\r\n\r\n    let playerParams = player.updatePlayer();\r\n    player.drawObjectImage(ctx);\r\n\r\n    for (let i = 0; i < enemies.length; i++) {\r\n        enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);\r\n        enemies[i].draw(ctx, \"green\");\r\n    }\r\n\r\n    player.updatePlayer(walls);\r\n\r\n    for (let bullet of playerParams.bullets) {\r\n        bullet.updateBullet();\r\n        bullet.drawObjectImage(ctx);\r\n        for (let enemy of enemies) {\r\n            if (bullet.collidesWith(enemy)) {\r\n                console.log(bullet, enemy);\r\n                enemies.splice(enemies.indexOf(enemy), 1);\r\n                playerParams.bullets.splice(playerParams.bullets.indexOf(bullet), 1);\r\n                score += 10 + 10 * minutes;\r\n                break;\r\n            }\r\n        }\r\n    }\r\n\r\n    gates.forEach(gate => gate.drawObjectImage(ctx));\r\n\r\n    for (wall of walls) {\r\n        wall.draw(ctx, \"black\");\r\n    }\r\n    spawnEnemies();\r\n    requestAnimationFrame(gameLoop);\r\n}\r\n\r\nfunction initializeWalls() {\r\n    walls = [];\r\n    let wallX = 0;\r\n    let wallY = 0;\r\n\r\n    for (let i = 0; i < 17; i++) {\r\n        wallX = 32 * i;\r\n        if (i !== 8) {\r\n            walls.push(new Wall(wallX, 0));\r\n            walls.push(new Wall(wallX, canvas.height - 32));\r\n        }\r\n    }\r\n\r\n    for (let i = 0; i < 17; i++) {\r\n        wallY = 32 * i;\r\n        if (i !== 8) {\r\n            walls.push(new Wall(0, wallY));\r\n            walls.push(new Wall(canvas.height - 32, wallY));\r\n        }\r\n    }\r\n}\r\n\r\nfunction spawnEnemies() {\r\n\r\n    console.log(seconds);\r\n    if (currentSecond === seconds + minutes * 60) {\r\n        if (seconds <= 30) {\r\n            let enemyX = gates[currentGate].getX();\r\n            let enemyY = gates[currentGate].getY();\r\n            enemies.push(new Enemy(enemyX, enemyY));\r\n            if (currentGate !== 4) currentGate++;\r\n            if (currentGate === 4) currentGate = 0\r\n\r\n            currentSecond++;\r\n\r\n        }\r\n        if (seconds + minutes * 60 > 30) {\r\n            for (let gate of gates) {\r\n                let enemyX = gate.getX();\r\n                let enemyY = gate.getY();\r\n                enemies.push(new Enemy(enemyX, enemyY));\r\n            }\r\n\r\n            currentSecond += 3;\r\n        }\r\n\r\n        if (minutes >= 1) {\r\n            let spawnX = Math.random() * (canvas.width - 66) + 33;\r\n            let spawnY = Math.random() * (canvas.height - 66) + 33;\r\n            enemies.push(new Enemy(spawnX, spawnY));\r\n        }\r\n\r\n    }\r\n}\r\n\r\nfunction loadSprites() {\r\n    julian = document.getElementById(\"julian\");\r\n    playerSpriteRight = document.getElementById(\"playerSpriteRight\");\r\n    playerSpriteLeft = document.getElementById(\"playerSpriteLeft\");\r\n\r\n}\r\n\r\nwindow.onBodyLoad = onBodyLoad;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/game-files/core.js b/game-files/core.js
+--- a/game-files/core.js	(revision 4effc5e61ae6da40bc4e0cee9799226c1a7888f2)
++++ b/game-files/core.js	(date 1740819414145)
+@@ -29,6 +29,8 @@
+ 
+ let score = 0;
+ 
++let paused = false;
++
+ function onBodyLoad() {
+     startTime = performance.now();
+ 
+@@ -46,10 +48,27 @@
+ 
+     player = new Player(canvas.width/2 - 16, canvas.height/2 - 16, walls, gates);
+ 
++    window.addEventListener('keydown', function(event) {
++        if (event.key === 'Escape') {
++            togglePause();
++        }
++    });
++
++    function togglePause() {
++        paused = !paused;
++        if (!paused) {
++            startTime = performance.now() - time;
++            gameLoop();
++        }
++    }
++
+     gameLoop();
+ }
+ 
+ function gameLoop() {
++
++    if (paused) return;
++
+     time = Math.floor(performance.now() - startTime);
+     seconds = Math.floor((time / 1000) % 60);
+     minutes = Math.floor((time / 1000) / 60);
+Index: menu.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n    <meta charset=\"UTF-8\">\r\n    <title>Game Menu</title>\r\n    <style>\r\n        body {\r\n            font-family: Arial, sans-serif;\r\n            background: url('sprites/pixelGrass.jpg');\r\n            background-size: cover;\r\n            display: flex;\r\n            justify-content: center;\r\n            text-align: center;\r\n        }\r\n        .menu {\r\n            text-align: center;\r\n        }\r\n        .menu button {\r\n            width: 200px;\r\n            margin: 10px;\r\n            padding: 15px;\r\n            font-size: 18px;\r\n            cursor: pointer;\r\n            background-color: #61dafb;\r\n            border-radius: 5px;\r\n            color: #282c34;\r\n        }\r\n    </style>\r\n</head>\r\n<body>\r\n<div class=\"menu\">\r\n    <h1>Game Menu</h1>\r\n    <button onclick=\"startGame()\">Start Game</button>\r\n    <button onclick=\"showCredits()\">Credits</button>\r\n</div>\r\n\r\n<script>\r\n    function startGame() {\r\n        alert('Starting the game...');\r\n        window.location.href = 'game.html';\r\n\r\n    }\r\n\r\n    function showCredits() {\r\n        alert('Showing credits...');\r\n        window.location.href = 'credits.html';\r\n\r\n    }\r\n</script>\r\n</body>\r\n</html>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/menu.html b/menu.html
+--- a/menu.html	(revision 4effc5e61ae6da40bc4e0cee9799226c1a7888f2)
++++ b/menu.html	(date 1740767151906)
+@@ -36,15 +36,11 @@
+ 
+ <script>
+     function startGame() {
+-        alert('Starting the game...');
+         window.location.href = 'game.html';
+-
+     }
+ 
+     function showCredits() {
+-        alert('Showing credits...');
+         window.location.href = 'credits.html';
+-
+     }
+ </script>
+ </body>

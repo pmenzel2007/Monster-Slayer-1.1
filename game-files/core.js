@@ -31,6 +31,8 @@ let walls;
 
 let score = 0;
 
+let paused = false;
+
 function onBodyLoad() {
     startTime = performance.now();
 
@@ -48,10 +50,26 @@ function onBodyLoad() {
 
     player = new Player(canvas.width/2 - 16, canvas.height/2 - 16, walls, gates);
 
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            togglePause();
+        }
+    });
+
+    function togglePause() {
+        paused = !paused;
+        if (!paused) {
+            startTime = performance.now() - time;
+            gameLoop();
+        }
+    }
+
     gameLoop();
 }
 
 function gameLoop() {
+    if (paused) return;
+
     time = Math.floor(performance.now() - startTime);
     seconds = Math.floor((time / 1000) % 60);
     minutes = Math.floor((time / 1000) / 60);
