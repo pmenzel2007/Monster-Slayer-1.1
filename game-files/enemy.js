@@ -42,6 +42,11 @@ class Enemy extends GameObject {
         if (this.x < playerX) this.activeSprite = monsterEnemyRight;
         if (this.x > playerX) this.activeSprite = monsterEnemyLeft;
 
+        let playerBounds = { x: playerX, y: playerY, height: this.height, width: this.width, id: -1 };
+        if (this.collidesWith(playerBounds)) {
+            alive = false;
+        }
+
     }
 
     checkForCollision(bounds, enemies) {

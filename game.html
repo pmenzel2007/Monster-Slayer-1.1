@@ -25,6 +25,7 @@
             color: limegreen;
             padding: 10px 20px;
             font-size: 16px;
+            cursor: pointer;
         }
 
         .back-button:hover {
@@ -47,6 +48,42 @@
         #score {
             top: 50px;
         }
+
+        /* Game Over Popup */
+        #gameOverPopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+        }
+
+        #gameOverPopup h2 {
+            margin-bottom: 20px;
+        }
+
+        .popup-button {
+            background-color: limegreen;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .popup-button:hover {
+            background-color: black;
+            color: limegreen;
+            border: 1px solid limegreen;
+        }
     </style>
     <script src="game-files/gameObject.js"></script>
     <script src="game-files/player.js"></script>
@@ -63,6 +100,12 @@
 
 <div id="timer">Time: 0</div>
 <div id="score">Score: 0</div>
+
+<div id="gameOverPopup">
+    <h2>Game Over</h2>
+    <button class="popup-button" onclick="restartGame()">Retry</button>
+    <button class="popup-button" onclick="goToMenu()">Back to Menu</button>
+</div>
 
 <img src="sprites/julian.png" id="julian" alt="ImageNotFound" style="display:none;">
 <img src="sprites/playerSpriteRight.png" id="playerSpriteRight" alt="ImageNotFound" style="display:none;">

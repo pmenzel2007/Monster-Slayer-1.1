@@ -33,6 +33,8 @@ let score = 0;
 
 let paused = false;
 
+let alive = true;
+
 function onBodyLoad() {
     startTime = performance.now();
 
@@ -110,7 +112,24 @@ function gameLoop() {
         wall.draw(ctx, "black");
     }
     spawnEnemies();
-    requestAnimationFrame(gameLoop);
+    if (alive) requestAnimationFrame(gameLoop);
+    else finishGame();
+}
+
+function finishGame() {
+    document.getElementById("gameOverPopup").style.display = "block";
+}
+
+function restartGame() {
+    document.getElementById("gameOverPopup").style.display = "none";
+    startTime = performance.now();
+    score = 0;
+    alive = true;
+    enemies = [];
+    player = new Player(canvas.width/2 - 16, canvas.height/2 - 16, walls, gates);
+    currentGate = 0;
+    currentSecond = 0;
+    gameLoop();
 }
 
 function initializeWalls() {
@@ -136,8 +155,6 @@ function initializeWalls() {
 }
 
 function spawnEnemies() {
-
-    console.log(seconds);
     if (currentSecond === seconds + minutes * 60) {
         if (seconds <= 30) {
             let enemyX = gates[currentGate].getX();
