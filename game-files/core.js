@@ -161,7 +161,7 @@ function initializeWalls() {
 
 function spawnEnemies() {
     if (currentSecond === seconds + minutes * 60) {
-        if (seconds <= 30) {
+        if (seconds <= 30 && minutes < 1) {
             let enemyX = gates[currentGate].getX();
             let enemyY = gates[currentGate].getY();
             enemies.push(new Enemy(enemyX, enemyY));
@@ -171,7 +171,7 @@ function spawnEnemies() {
             currentSecond++;
 
         }
-        if (seconds + minutes * 60 > 30) {
+        if (seconds > 30 || minutes >= 1) {
             for (let gate of gates) {
                 let enemyX = gate.getX();
                 let enemyY = gate.getY();
