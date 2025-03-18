@@ -90,9 +90,9 @@ function gameLoop() {
     let playerParams = player.updatePlayer();
     player.drawObjectImage(ctx);
 
-    for (let i = 0; i < enemies.length; i++) {
-        enemies[i].update(playerParams.playerX, playerParams.playerY, enemies);
-        enemies[i].drawObjectImage(ctx);
+    for (let enemy of enemies) {
+        enemy.update(playerParams.playerX, playerParams.playerY, enemies);
+        enemy.drawObjectImage(ctx);
     }
 
     for (let bullet of playerParams.bullets) {
@@ -111,9 +111,8 @@ function gameLoop() {
 
     gates.forEach(gate => gate.drawObjectImage(ctx));
 
-    for (wall of walls) {
-        wall.draw(ctx, "black");
-    }
+    walls.forEach(wall => wall.draw(ctx, "black"));
+
     spawnEnemies();
     if (alive) requestAnimationFrame(gameLoop);
     else finishGame();
